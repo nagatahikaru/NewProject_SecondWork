@@ -11,7 +11,7 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	
+	SoundSource* m_GameOverBGM = nullptr;      //ƒQ[ƒ€’†‚ÌBGM
 	SpriteRender m_spriteRender;
 };
 

@@ -28,6 +28,7 @@ public:
 
 	Player* m_Player;//プレイヤーへの参照
 	Bullet* m_Bullet;//弾丸への参照
+	SoundSource* m_GameATKSE = nullptr; //敵の攻撃音
 	EnemyManager* m_Enemymanager;//エネミーマネージャーへの参照
 	GameCamera* m_GameCamera;//ゲームカメラへの参照
 	ModelRender m_ModelRender;//モデルレンダラー

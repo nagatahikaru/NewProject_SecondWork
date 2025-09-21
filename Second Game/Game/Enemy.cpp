@@ -40,6 +40,8 @@ bool Enemy::Start()
 	m_CharacterController.GetRigidBody();
 	m_Player = FindGO<Player>("m_Player");
 	m_GameCamera = FindGO<GameCamera>("m_GameCamera");
+	SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //
+	m_GameATKSE = soundManager->PlayingSound(Sound::enSound_DamageSE, false, 1.0f);//“G‚ÌUŒ‚‰¹
 	return true;
 }
 
@@ -53,6 +55,7 @@ void Enemy::Update()
 void Enemy::Atk()
 {
 	if (m_Player == nullptr) return;
+	m_GameATKSE->Play(false); //“G‚ÌUŒ‚‰¹Ä¶
 	m_Enemyatk = rand() % 20 + 5;  //UŒ‚—Í‚ðƒ‰ƒ“ƒ_ƒ€‚ÉÝ’è(5~25)
 	//ƒvƒŒƒCƒ„[‚Ì‘Ì—Í‚ðŒ¸‚ç‚·
 	m_Player->m_PlayreHp -= m_Enemyatk;
