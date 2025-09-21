@@ -21,6 +21,7 @@ public:
 	BackGround*    m_backGround = nullptr;   //”wŒi
 	EnemyManager*  m_enemymanager = nullptr; //“G
 	BulletManager* m_bulletmanager = nullptr;//’eŠÛ
+	SoundSource*   m_GameLoadBGM = nullptr;      //ƒQ[ƒ€’†‚ÌBGM
 	SpriteRender   m_spriteRender;
 	SpriteRender   m_LoadBarSpriteRender;
 	SpriteRender   m_unitySpriteRender;

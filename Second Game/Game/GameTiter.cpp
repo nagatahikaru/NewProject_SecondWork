@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameTiter.h"
 #include "GameLoad.h"
+#include "SoundManager.h"
 
 GameTiter::GameTiter()
 {
@@ -19,6 +20,9 @@ GameTiter::~GameTiter()
 
 bool GameTiter::Start()
 {
+	//タイトルBGM再生
+	SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //
+	m_GameTiterBGM = soundManager->PlayingSound(Sound::enSound_ClearBGM, true, 1.0f);//
 	return true;
 }
 
@@ -26,11 +30,11 @@ void GameTiter::Update()
 {
 	if (g_pad[0]->IsTrigger(enButtonA))
 	{
-		//if (sound != nullptr)
-		//{
-		//	sound->Stop();
-		//	sound = nullptr;
-		//}
+		if (m_GameTiterBGM != nullptr)
+		{
+			m_GameTiterBGM->Stop();
+			m_GameTiterBGM = nullptr;
+		}
 		//ゲーム開始
 		NewGO<GameLoad>(0, "m_gameload");		
 		DeleteGO(this); // タイトル画面を削除

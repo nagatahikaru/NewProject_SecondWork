@@ -13,7 +13,7 @@ public:
 	void Render(RenderContext& rc);
 
 	
-
+	SoundSource* m_GameTiterBGM = nullptr;//タイトルBGM
 	SpriteRender m_spriteRender;//Titer描写
 	FontRender   m_fontRender;//タイトル文字
 	float        m_alphas = 0.0f;//透明度変数

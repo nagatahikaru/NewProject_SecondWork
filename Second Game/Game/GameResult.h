@@ -2,6 +2,7 @@
 
 class GameTiter;
 
+
 class GameResult:public IGameObject
 {
 public:
@@ -15,6 +16,7 @@ public:
 	
 	SpriteRender m_spriteRender;
 	FontRender   m_fontRender;
+	SoundSource* m_GameResultBGM = nullptr;      //ƒQ[ƒ€’†‚ÌBGM
 	int m_Score;
 };
 

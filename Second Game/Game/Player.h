@@ -27,6 +27,8 @@ public:
 	std::vector<Enemy*> m_EnemyPool;
 	std::vector<Bullet*> m_BulletPool;
 	BulletManager* m_Bulletmanager;
+	SoundSource* m_ShotSound = nullptr; //ショット音
+	SoundSource* m_ReloadSound = nullptr; //リロード音
 	GameResult* m_GameResult;
 	GameCamera* m_GameCamera;
 	ModelRender m_ModelRender;

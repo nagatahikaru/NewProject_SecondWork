@@ -11,7 +11,7 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	
+	SoundSource* m_GameClearBGM = nullptr;//ÉNÉäÉABGM
 	SpriteRender m_spriteRender;
 	FontRender m_fontRender;
 };

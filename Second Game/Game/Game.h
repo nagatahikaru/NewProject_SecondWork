@@ -1,5 +1,4 @@
 #pragma once
-#include "sound/SoundSource.h"
 
 class Player;
 class GameCamera;
@@ -11,6 +10,7 @@ class Enemy;
 class Bullet;
 class EnemyManager;
 class BulletManager;
+
 
 //Gameシーンを管理するクラス。
 class Game : public IGameObject
@@ -34,7 +34,7 @@ public:
 	GameLoad*      m_GameLoad = nullptr;     //ロード画面
 	SoundSource*   m_GameBGM = nullptr;      //ゲーム中のBGM
 	GameClear*     m_Gameclear = nullptr;    //ゲームカメラ
-	GameOver*      m_GameOver = nullptr;     //ゲームオーバー	
+	GameOver*      m_GameOver = nullptr;     //ゲームオーバー
 	FontRender        m_fontRender;                //フォント
 	bool exists = false;//生存フラグ
 	float m_Time= 0.0f;//時間

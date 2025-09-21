@@ -5,6 +5,7 @@
 #include "EnemyManager.h"
 #include "BackGround.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 GameLoad::GameLoad()
 {
@@ -28,6 +29,8 @@ bool GameLoad::Start()
 
 	m_unity1SpriteRender.Init("Assets/sprite/Sign_Okay.DDS", 200.0f, 200.0f);
 	m_unity1SpriteRender.SetPosition(Vector3(-50.0f, -125.0f, 0.0f));
+	SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //
+	m_GameLoadBGM = soundManager->PlayingSound(Sound::enSound_LoadBGM, true, 1.0f);//
 	NewGO<BackGround>(0, "m_BackGround");//背景生成
 	NewGO<Player>(0, "m_Player");//プレイヤー生成
 	NewGO<BulletManager>(0, "m_bulletManager");//6発の弾丸を生成
@@ -66,6 +69,11 @@ void GameLoad::Update()
 
 	if (m_Loadtimer > 15)
 	{
+		if (m_GameLoadBGM != nullptr)
+		{
+			m_GameLoadBGM->Stop();
+			m_GameLoadBGM = nullptr;
+		}
 		// ロードが完了したらゲームを開始
 		NewGO<Game>(0, "m_game");
 		DeleteGO(this);

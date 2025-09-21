@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameResult.h"
 #include "GameTiter.h"
+#include "SoundManager.h"
 
 GameResult::GameResult()
 {
@@ -15,6 +16,9 @@ GameResult::~GameResult()
 
 bool GameResult::Start()
 {
+	SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //
+	m_GameResultBGM = soundManager->PlayingSound(Sound::enSound_ResultBGM, true, 1.0f);//
+
 	return true;
 }
 
@@ -31,11 +35,11 @@ void GameResult::Update()
 	//Iボタンでタイトルへへ
 	if (g_pad[0]->IsTrigger(enButtonY))
 	{
-		//if (sound != nullptr)
-		//{
-		//	sound->Stop();
-		//	sound = nullptr;
-		//}
+		if (m_GameResultBGM != nullptr)
+		{
+			m_GameResultBGM->Stop();
+			m_GameResultBGM = nullptr;
+		}
 		//Result移動
 		NewGO<GameTiter>(0, "m_gametiter");
 		DeleteGO(this); // タイトル画面を削除
