@@ -29,9 +29,6 @@ bool Player::Start()
 	m_ModelRender.SetPosition(m_Position);
 	m_CharacterController.Init(25.0f, 75.0f, m_Position);
 	m_Bulletmanager = FindGO<BulletManager>("bulletmanager");
-	SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
-	m_ShotSound = soundManager->PlayingSound(Sound::enSound_BulletSE, false, 1.0f);//ショット音
-	m_ReloadSound = soundManager->PlayingSound(Sound::enSound_ReloadSE, false, 1.0f);//リロード音
 	m_BulletCount = 6; //弾丸の初期数
 	m_PlayreHp = 100;
 	return true;
@@ -127,7 +124,9 @@ void Player::ATK()
 		if(m_Atktime<=0)		
 		{
 			if (m_ShotSound) {
-				m_ShotSound->Play(false); // ショット音を再生
+				SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
+				m_ShotSound = soundManager->PlayingSound(enSound_BulletSE, false);//ショット音
+				//m_ShotSound->Play(false); // ショット音を再生
 			}
 			// プレイヤーの向き（前方向ベクトル）
 			Vector3 dir(0, 0, 1);      // Z+方向を基準の前向きにする
@@ -154,7 +153,8 @@ void Player::ATK()
 	    if (m_ReloadTime >= 1 && m_BulletCount <6)
 	    {
 			if (m_ReloadSound) {
-				m_ReloadSound->Play(false); // リロード音を再生
+				SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
+				m_ReloadSound = soundManager->PlayingSound(enSound_ReloadSE, false);//リロード音
 			}
 			int i = 6 - m_BulletCount;//補充する弾丸の数
 			m_BulletCount += i; //弾丸補充

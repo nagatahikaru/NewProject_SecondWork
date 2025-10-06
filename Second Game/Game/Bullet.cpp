@@ -21,8 +21,7 @@ bool Bullet::Start()
 	rot.SetRotationX(Math::DegToRad(90.0f));
 	m_ModelRender.SetRotation(rot);
 	m_Position = m_Position + Vector3(0.0f, 1.0f, 0.0f); //­‚µã‚É‚¸‚ç‚·
-	m_ModelRender.SetPosition(m_Position);
-	
+	m_ModelRender.SetPosition(m_Position);	
 
 	return true;
 }
@@ -72,11 +71,9 @@ void Bullet::Atk()
 void Bullet::Reload()
 {
 	if (m_Speed == 0.0f)return;
-	if (m_Position.z > 2000.0f || m_Position.z < -200.0f ||
-		m_Position.x > 1000.0f || m_Position.x < -1000.0f)
-	{		
-		Deactivate();
-	}
+	
+	Deactivate();
+	
 }
 void Bullet::Render(RenderContext& rc)
 {

@@ -6,6 +6,7 @@
 
 //#include "Game.h"
 #include "GameTiter.h"
+#include "SoundManager.h"
 
 
 
@@ -36,6 +37,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//Gameクラスのオブジェクトを作成。
 	NewGO<GameTiter>(0, "gametiter");
+	NewGO<SoundManager>(0, "soundManager");
 	/*NewGO<Player>(0);
 	NewGO<Game>(0, "game");*/
 

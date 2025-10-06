@@ -21,8 +21,9 @@ GameTiter::~GameTiter()
 bool GameTiter::Start()
 {
 	//タイトルBGM再生
-	SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //
-	m_GameTiterBGM = soundManager->PlayingSound(Sound::enSound_TitleBGM, true, 1.0f)//タイトルBGM
+
+	SoundManager* soundManager = FindGO<SoundManager>("soundManager");//
+	m_GameTiterBGM = soundManager->PlayingSound(enSound_TitleBGM);//タイトルBGM
 	return true;
 }
 

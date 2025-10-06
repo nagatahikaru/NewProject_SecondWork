@@ -83,42 +83,42 @@ void Enemy::Move()
 		Atkinterval = 0.2f;
 	}
 
-	if (dist >= 950.0f)
-	{
-		m_DetectionTime += g_gameTime->GetFrameDeltaTime();
-		//プレイヤーを追いかける
-		if(m_DetectionTime<=1.0f)
-		{
-			m_TargetPosition = pos;
-			m_DetectionTime = 0.0f;
-		}
-		
-		//パス探索
-		m_PathFiding.Execute(
-			m_Path,                     //構築されたバスの格納先
-			m_NvmMesh,                  //ナビメッシュ
-			m_Position,                 //開始座標
-			m_TargetPosition,           //移動目標座標				
-			PhysicsWorld::GetInstance(),//物理エンジン
-			50.0f,                      //AIエージェントの半径
-			200.0f                      //AIエージェントの高さ
-		);
-		//移動速度の設定		
-		m_Speed = 10.5f;//移動速度を距離によって変更		
+	//if (dist >= 950.0f)
+	//{
+	//	m_DetectionTime += g_gameTime->GetFrameDeltaTime();
+	//	//プレイヤーを追いかける
+	//	if(m_DetectionTime<=1.0f)
+	//	{
+	//		m_TargetPosition = pos;
+	//		m_DetectionTime = 0.0f;
+	//	}
+	//	
+	//	//パス探索
+	//	m_PathFiding.Execute(
+	//		m_Path,                     //構築されたバスの格納先
+	//		m_NvmMesh,                  //ナビメッシュ
+	//		m_Position,                 //開始座標
+	//		m_TargetPosition,           //移動目標座標				
+	//		PhysicsWorld::GetInstance(),//物理エンジン
+	//		50.0f,                      //AIエージェントの半径
+	//		200.0f                      //AIエージェントの高さ
+	//	);
+	//	//移動速度の設定		
+	//	m_Speed = 10.5f;//移動速度を距離によって変更		
 
-		//パスの上を移動する
-		m_Position = m_Path.Move(
-			m_Position, //開始座標
-			m_Speed,    //移動速度
-			Isend       //パス終点
-		);
-	}
-	if(dist <=1000.0f)
-	{
+	//	//パスの上を移動する
+	//	m_Position = m_Path.Move(
+	//		m_Position, //開始座標
+	//		m_Speed,    //移動速度
+	//		Isend       //パス終点
+	//	);
+	//}
+	//if(dist <=1000.0f)
+	//{
 		m_Speed = 1.0f;//移動速度を距離によって変更
 		Distance.Normalize();
 		 m_Position += Distance* m_Speed * g_gameTime->GetFrameDeltaTime();
-	}
+	//}
 	//地面についていたら
 	if (m_CharacterController.IsOnGround())
 	{
