@@ -29,6 +29,7 @@ public:
 	BulletManager* m_Bulletmanager;
 	SoundSource* m_ShotSound = nullptr; //ショット音
 	SoundSource* m_ReloadSound = nullptr; //リロード音
+	SoundSource* m_BlankShot = nullptr;//空打ち音
 	GameResult* m_GameResult;
 	GameCamera* m_GameCamera;
 	ModelRender m_ModelRender;

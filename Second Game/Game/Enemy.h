@@ -43,11 +43,11 @@ public:
 		enAnimationClip_Num,
 	};
 	AnimationClip m_animationClips[enAnimationClip_Num];
-	nsAI::NaviMesh    m_NvmMesh;         //ナビメッシュ
-	nsAI::Path        m_Path;            //パス(経路)
-	nsAI::PathFinding m_PathFiding;      //経路探索
-	bool              Isend;             //パスの終端に到達したかどうかのフラグ
-	bool              m_Startflag = true;//スタートフラグ
+	//nsAI::NaviMesh    m_NvmMesh;         //ナビメッシュ
+	//nsAI::Path        m_Path;            //パス(経路)
+	//nsAI::PathFinding m_PathFiding;      //経路探索
+	//bool              Isend;             //パスの終端に到達したかどうかのフラグ
+	//bool              m_Startflag = true;//スタートフラグ
 	float Atkinterval;//攻撃間隔
 	float m_Speed;    //移動速度
 	float m_DetectionTime=0.0f;

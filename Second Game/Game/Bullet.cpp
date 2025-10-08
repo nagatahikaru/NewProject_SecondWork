@@ -18,7 +18,7 @@ bool Bullet::Start()
 	m_ModelRender.Init("Assets/modelData/Bullet_2.tkm", nullptr);
 	//モデルを横に向ける
 	Quaternion rot;
-	rot.SetRotationX(Math::DegToRad(90.0f));
+	//rot.SetRotationX(Math::DegToRad(90.0f));
 	m_ModelRender.SetRotation(rot);
 	m_Position = m_Position + Vector3(0.0f, 1.0f, 0.0f); //少し上にずらす
 	m_ModelRender.SetPosition(m_Position);	
@@ -38,7 +38,7 @@ void Bullet::Fire(const Vector3& pos, const Vector3& dir, float speed)
 
 	// 弾のモデルも進行方向に回転させたい場合
 	Quaternion rot;
-	rot.SetRotationYFromDirectionXZ(Vector3(m_Direction.x, 0.0f, m_Direction.z));
+	rot.SetRotationYFromDirectionXZ(Vector3(m_Direction));
 	m_ModelRender.SetRotation(rot);
 }
 
@@ -62,7 +62,7 @@ void Bullet::Atk()
 	float distance = toEnemy.Length(); // 距離を計算
 	if (distance < 20.0f) // 衝突判定の閾値
 	{
-		m_Atk = rand() % 50 + 51; //50~100のランダムな攻撃力
+		m_Atk =100 /*rand() % 50 + 51*/; //50~100のランダムな攻撃力
 		enemy->m_Hp -= m_Atk; // 敵の体力を減少
 		this->Deactivate(); // 弾を非アクティブにする
 	}
@@ -70,9 +70,12 @@ void Bullet::Atk()
 
 void Bullet::Reload()
 {
-	if (m_Speed == 0.0f)return;
-	
-	Deactivate();
+	int magnification = 800;
+	m_Speed -= g_gameTime->GetFrameDeltaTime() * magnification;
+	if (m_Speed <= 0.0f)	
+	{
+		Deactivate();
+	}
 	
 }
 void Bullet::Render(RenderContext& rc)

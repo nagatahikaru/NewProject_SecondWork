@@ -36,9 +36,9 @@ bool Player::Start()
 
 void Player::Update()
 {
-	m_GameCamera = FindGO<GameCamera>("m_GameCamera");
-	if(m_GameCamera ==nullptr)
+	if (m_GameCamera == nullptr)
 	{
+		m_GameCamera = FindGO<GameCamera>("m_GameCamera");
 		return;
 	}
 	Rotation();	
@@ -77,14 +77,14 @@ void Player::Move()
 	{
 		m_MoveSpeed.x *= SpeedBaika; // Bボタンが押されている間は右方向の速度を2倍にする
 		m_MoveSpeed.z *= SpeedBaika; // Bボタンが押されている間は前方向の速度を2倍にする
-		m_Time = m_Time + g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
+		m_Time +=g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
 	}
 	else
 	{
 		//経過時間を減算していく
-		m_Time = m_Time - g_gameTime->GetFrameDeltaTime();
+		m_Time -=g_gameTime->GetFrameDeltaTime();
 	}
-	if (m_Time < 0.0f) // 経過時間が0以下になったら
+	if (m_Time <= 0.0f) // 経過時間が0以下になったら
 	{
 		m_Time = 0.0f; // 経過時間を0にリセット
 	}
@@ -121,27 +121,32 @@ void Player::ATK()
 	//攻撃処理,Lスティック押し込みで弾丸発射
 	if (g_pad[0]->IsTrigger(enButtonX)&& m_BulletCount>0)
 	{
-		if(m_Atktime<=0)		
+		if (m_Atktime <= 0)
 		{
-			if (m_ShotSound) {
-				SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
-				m_ShotSound = soundManager->PlayingSound(enSound_BulletSE, false);//ショット音
-				//m_ShotSound->Play(false); // ショット音を再生
-			}
-			// プレイヤーの向き（前方向ベクトル）
+
+			SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
+			m_ShotSound = soundManager->PlayingSound(enSound_BulletSE, false, 1.0f);//ショット音
+			//m_ShotSound->Play(false); // ショット音を再生
+
+		// プレイヤーの向き（前方向ベクトル）
 			Vector3 dir(0, 0, 1);      // Z+方向を基準の前向きにする
 			Quaternion rot = m_Rotation;
 			rot.Apply(dir);
 			dir.Normalize(); // 念のため正規化
 
-            // プレイヤーの位置（少し前にずらすと自然）
-            Vector3 pos = m_Position + dir * 10.0f + Vector3(0, 10.0f, 0);
+			// プレイヤーの位置（少し前にずらすと自然）
+			Vector3 pos = m_Position + dir * 10.0f + Vector3(0, 10.0f, 0);
 
-            // 発射命令
+			// 発射命令
 			m_Bulletmanager->FireBullet(pos, dir);
 			m_BulletCount--;
 			m_Atktime = 0.5;
 		}
+	}
+	else if (g_pad[0]->IsTrigger(enButtonX) && m_BulletCount <= 0)
+	{
+		SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
+		m_BlankShot = soundManager->PlayingSound(enSound_BlankShotSE, false, 1.0f);//リロード音
 	}
 
 	//弾丸のリロード時間と弾丸の補充
@@ -150,18 +155,17 @@ void Player::ATK()
 	{		
 		//リロードタイム
 		m_ReloadTime += g_gameTime->GetFrameDeltaTime();
-	    if (m_ReloadTime >= 1 && m_BulletCount <6)
-	    {
-			if (m_ReloadSound) {
-				SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
-				m_ReloadSound = soundManager->PlayingSound(enSound_ReloadSE, false);//リロード音
-			}
+		if (m_ReloadTime >= 1 && m_BulletCount < 6)
+		{
+			SoundManager* soundManager = FindGO<SoundManager>("soundManager");//サウンドマネージャーを取得
+			m_ReloadSound = soundManager->PlayingSound(enSound_ReloadSE, false, 1.0f);//リロード音
+
 			int i = 6 - m_BulletCount;//補充する弾丸の数
 			m_BulletCount += i; //弾丸補充
 			auto bullet = FindGO<Bullet>("bullet");
-			bullet->Reload();		  
+			bullet->Reload();
 			m_ReloadTime = 0;
-	    }
+		}
 	}
 }
 

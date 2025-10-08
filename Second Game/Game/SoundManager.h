@@ -13,6 +13,7 @@ enum Sound{
 	enSound_ResultBGM,  //リザルト　　　　　　6
 	enSound_ReloadSE,	//リロード音　　　　　7
 	enSound_LoadBGM,    //ロード　　　　　　　8
+	enSound_BlankShotSE,	//空打ち音			　9
 	enSound_Num //このステータスは、サウンドの総数を表しているため、この下には追加しないでください。
 };
 
