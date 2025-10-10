@@ -2,6 +2,7 @@
 #include "GameResult.h"
 #include "GameTiter.h"
 #include "SoundManager.h"
+#include "UI.h"
 
 GameResult::GameResult()
 {
@@ -11,7 +12,7 @@ GameResult::GameResult()
 
 GameResult::~GameResult()
 {
-
+	DeleteGO(m_UI);
 }
 
 bool GameResult::Start()
@@ -27,7 +28,8 @@ void GameResult::Score(int score)
 	float time = g_gameTime->GetFrameDeltaTime();
 	int intTime = static_cast<int>(time); // 小数点以下を切り捨て
 	int Fiftytimes = 50;//50倍
-	m_Score += intTime * Fiftytimes;//スコア加算	
+	m_Score += intTime * Fiftytimes;//スコア加算
+	m_UI = FindGO<UI>("m_UI");
 }
 
 void GameResult::Update()

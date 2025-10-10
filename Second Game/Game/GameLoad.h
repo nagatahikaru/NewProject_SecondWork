@@ -33,6 +33,8 @@ public:
 	bool m_showUnity = false; // ユニティちゃんの表示フラグ
 	int m_Maxnewgocount = 0; // 最大生成数
 	int m_newgocount = 0; // 現在の生成数
+	bool Loadflag = false;
+	bool Loadstartflag = true;
 
 };
 

@@ -31,18 +31,19 @@ bool GameLoad::Start()
 	m_unity1SpriteRender.SetPosition(Vector3(-50.0f, -125.0f, 0.0f));
 	SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //
 	m_GameLoadBGM = soundManager->PlayingSound(Sound::enSound_LoadBGM, true, 1.0f);//
-	NewGO<BackGround>(0, "m_BackGround");//”wŒi¶¬
-	NewGO<Player>(0, "m_Player");//ƒvƒŒƒCƒ„[¶¬
-	NewGO<BulletManager>(0, "m_bulletManager");//6”­‚Ì’eŠÛ‚ğ¶¬
-	NewGO<EnemyManager>(0, "m_enemyManager");//20‘Ì‚Ì“G‚ğ¶¬
-	/*m_Maxnewgocount = 26;
-	m_newgocount = 0;*/
 	return true;
 }
 
 void GameLoad::Update()
 {
-
+	if (Loadflag)
+	{
+		NewGO<BackGround>(0, "m_BackGround");//”wŒi¶¬
+		NewGO<Player>(0, "m_Player");//ƒvƒŒƒCƒ„[¶¬
+		NewGO<BulletManager>(0, "m_bulletManager");//6”­‚Ì’eŠÛ‚ğ¶¬
+		NewGO<EnemyManager>(0, "m_enemyManager");//20‘Ì‚Ì“G‚ğ¶¬
+		Loadflag = false;
+	}
 	
 	// ‚±‚±‚Éƒ[ƒhˆ—‚ğÀ‘•
 	m_Loadtimer += g_gameTime->GetFrameDeltaTime();
@@ -115,8 +116,12 @@ void GameLoad::Render(RenderContext& rc)
 	{
 		m_unity1SpriteRender.Draw(rc);
 	}
-
+	if (Loadstartflag)
+	{
+		Loadflag = true;
+		Loadstartflag = false;
+	}
 	
 	// ƒtƒHƒ“ƒg‚Ì•`‰æ
-	m_DrawFont.Draw(rc);
+	//m_DrawFont.Draw(rc);
 }

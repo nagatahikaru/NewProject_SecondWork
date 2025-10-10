@@ -10,6 +10,7 @@ class Enemy;
 class Bullet;
 class EnemyManager;
 class BulletManager;
+class UI;
 
 
 //Gameシーンを管理するクラス。
@@ -35,6 +36,7 @@ public:
 	SoundSource*   m_GameBGM = nullptr;      //ゲーム中のBGM
 	GameClear*     m_Gameclear = nullptr;    //ゲームカメラ
 	GameOver*      m_GameOver = nullptr;     //ゲームオーバー
+	UI* m_UI;
 	FontRender        m_fontRender;                //フォント
 	bool exists = false;//生存フラグ
 	float m_Time= 0.0f;//時間

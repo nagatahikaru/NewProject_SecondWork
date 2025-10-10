@@ -4,7 +4,8 @@ class Bullet;
 class Enemy;
 class BulletManager;
 class GameCamera;
-class GameResult;
+class UI;
+
 
 class Player:public IGameObject
 {
@@ -27,10 +28,10 @@ public:
 	std::vector<Enemy*> m_EnemyPool;
 	std::vector<Bullet*> m_BulletPool;
 	BulletManager* m_Bulletmanager;
+	UI* m_UI;
 	SoundSource* m_ShotSound = nullptr; //ショット音
 	SoundSource* m_ReloadSound = nullptr; //リロード音
 	SoundSource* m_BlankShot = nullptr;//空打ち音
-	GameResult* m_GameResult;
 	GameCamera* m_GameCamera;
 	ModelRender m_ModelRender;
 	Vector3 m_Position;

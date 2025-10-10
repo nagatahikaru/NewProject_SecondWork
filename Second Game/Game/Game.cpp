@@ -9,6 +9,7 @@
 #include "BulletManager.h"
 #include "EnemyManager.h"
 #include "SoundManager.h"
+#include "UI.h"
 
 Game::Game()
 {
@@ -27,6 +28,7 @@ Game::~Game()
 bool Game::Start()
 {		
 	m_GameCamera=NewGO<GameCamera>(0, "m_GameCamera");//ゲームカメラ生成
+	m_UI = NewGO<UI>(0, "m_UI");
 	SkyCube* sky = NewGO<SkyCube>(0);                // スカイクラスのインスタンスを生成
 	sky->SetLuminance(0.2f);                         // スカイの輝度を設定
 	sky->SetScale(10000.0f);                       // スカイのスケールを設定
@@ -73,17 +75,5 @@ void Game::Update()
 void Game::Render(RenderContext& rc)
 {
 	
-	// 描画する文字列を用意
-	wchar_t bu[129];
-	m_fontRender.SetPosition({ -600.0f,150.0f,0.0f });
-	//表示する色を設定する。
-	m_fontRender.SetColor(g_vec4White);
-	// エネミーの座標を取得
-	int Time = m_Time;
-	// 座標を文字列に変換   
-	swprintf(bu, 129, L"Time: %d",Time);
-	// テキストをセット
-	m_fontRender.SetText(bu);
-	// フォント描画
-	m_fontRender.Draw(rc);
+
 }

@@ -25,6 +25,7 @@
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />

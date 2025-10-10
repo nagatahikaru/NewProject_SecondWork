@@ -7,6 +7,7 @@
 #include "GameCamera.h"
 #include "GameResult.h"
 #include "SoundManager.h"
+#include "UI.h"
 
 Player::Player()
 {
@@ -187,7 +188,8 @@ void Player::Score()
 	float time = g_gameTime->GetFrameDeltaTime();
 	int intTime = static_cast<int>(time); // 小数点以下を切り捨て
 	int Fiftytimes = 50;//50倍
-	//GameResult->m_Score += intTime * Fiftytimes;//スコア加算	
+	m_UI=FindGO<UI>("m_UI");
+	m_UI->m_Scores += intTime * Fiftytimes;//スコア加算	
 }
 
 void Player::Render(RenderContext& rc)
