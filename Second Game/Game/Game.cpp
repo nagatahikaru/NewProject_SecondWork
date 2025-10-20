@@ -28,7 +28,7 @@ Game::~Game()
 bool Game::Start()
 {		
 	m_GameCamera=NewGO<GameCamera>(0, "m_GameCamera");//ゲームカメラ生成
-	m_UI = NewGO<UI>(0, "m_UI");
+	m_UI = NewGO<UI>(0, "m_UI");					 //UI
 	SkyCube* sky = NewGO<SkyCube>(0);                // スカイクラスのインスタンスを生成
 	sky->SetLuminance(0.2f);                         // スカイの輝度を設定
 	sky->SetScale(10000.0f);                       // スカイのスケールを設定

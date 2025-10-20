@@ -9,7 +9,7 @@ public:
 	~BulletManager();
 	bool Start();
 	void Update();
-	void FireBullet(const Vector3& pos, const Vector3& dir);
+	void FireBullet(const Vector3& pos, const Vector3& dir, const Quaternion& rot);
 	bool IsBulletStuck() const { return m_isBulletStuck; }
 	void InitBulletPool(int poolSize);
 	Bullet* GetInactiveBullet();

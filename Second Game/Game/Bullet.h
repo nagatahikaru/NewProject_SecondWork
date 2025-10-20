@@ -10,7 +10,7 @@ public:
 	~Bullet();
 	bool Start();
 	void Update();
-	void Fire(const Vector3& startPos, const Vector3& dir, float speed);
+	void Fire(const Vector3& startPos, const Vector3& dir, float speed, const Quaternion& rot);
 	void Atk();	
 	void Reload();
 	void Render(RenderContext& rc);
@@ -24,6 +24,7 @@ public:
 	Vector3 m_MoveSpeed;
 	ModelRender m_ModelRender;
 	int m_Atk=0;
+	FontRender m_BulletPos;
 
 };
 

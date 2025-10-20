@@ -38,6 +38,7 @@ public:
 	Vector3 m_TargetPosition; //移動目標座標
 	Quaternion m_Rotation;//回転
 	FontRender m_fontRender;//フォントレンダラー
+	RigidBody m_RigidBody;//剛体
 	enum EnAnimaationClip {
 		enAnimationClip_Run,
 		enAnimationClip_Num,

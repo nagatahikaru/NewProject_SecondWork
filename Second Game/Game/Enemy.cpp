@@ -22,27 +22,43 @@ bool Enemy::Start()
 	m_animationClips[enAnimationClip_Run].Load("Assets/animData/run.tka");
 	m_animationClips[enAnimationClip_Run].SetLoopFlag(true);
 
-	m_ModelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips,enModelUpAxisY);
-	//ナビメッシュを構築。
-	//m_NvmMesh.Init("Assets/nvm/Nvm_2.tkn");
-	// 乱数エンジンの初期化
-	// 実行ごとに異なる乱数列を生成するため、std::random_deviceを使用
+	m_ModelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enModelUpAxisY);
+	m_ModelRender.SetShadowCasterFlag(false);
+
+	// 初期座標をランダムに決定
 	std::random_device seed_gen;
 	std::mt19937 engine(seed_gen());
-
-	// 範囲 [0.0, 100.0) でfloatの乱数を生成する分布を定義
 	std::uniform_real_distribution<float> dist(200.0f, 10000.0f);
-	float x = dist(engine);// x座標の乱数
-	float z = dist(engine);// z座標の乱数
-	m_ModelRender.SetShadowCasterFlag(false);
-	m_Position = Vector3{ x,0.0f,z };
-	m_ModelRender.SetPosition(m_Position);
-	m_CharacterController.Init(25.0f, 75.0f, m_Position);
-	m_CharacterController.GetRigidBody();
+	float x = dist(engine);
+	float z = dist(engine);
+	m_Position = Vector3{ x, 0.0f, z };
+
+	// ---- ★ RigidBody（物理ボディ）設定 ----
+	nsK2EngineLow::RigidBodyInitData rbInfo;
+	rbInfo.pos = m_Position;
+	rbInfo.rot.SetRotationY(0.0f);
+	rbInfo.mass = 1.0f;                // 質量
+	rbInfo.restitution = 0.3f;         // 反発係数（跳ね返り度）
+
+	// 敵の当たり判定コライダーを作成
+	auto collider = new nsK2EngineLow::SphereCollider; // もしSphereColliderが使えるなら
+	collider->Create(25.0f); // 半径25
+	rbInfo.collider = collider;
+
+	m_RigidBody.Init(rbInfo);
+	m_RigidBody.SetFriction(1.0f);
+	m_RigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
+	m_RigidBody.SetAngularFactor(0.0f, 1.0f, 0.0f); // Y軸回転のみ許可
+
+	// ---- ★ CharacterControllerは不要（または補助用） ----
+	// m_CharacterController.Init(25.0f, 75.0f, m_Position);
+
 	m_Player = FindGO<Player>("m_Player");
-	m_GameCamera = FindGO<GameCamera>("m_GameCamera");	
+	m_GameCamera = FindGO<GameCamera>("m_GameCamera");
+
 	return true;
 }
+
 
 void Enemy::Update()
 {
@@ -54,7 +70,6 @@ void Enemy::Update()
 
 void Enemy::Atk()
 {
-	if (m_Player == nullptr) return;
 	SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //	
 	m_GameATKSE = soundManager->PlayingSound(enSound_DamageSE, false, 1.0f);//敵の攻撃音
 	m_Enemyatk = rand() % 20 + 5;  //攻撃力をランダムに設定(5~25)
@@ -161,5 +176,5 @@ void Enemy::Render(RenderContext& rc)
 
 	// モデルの描画処理
 
-	m_ModelRender.Draw(rc); // モデルを描画	
+	m_ModelRender.Draw(rc); // モデルを描画
 }

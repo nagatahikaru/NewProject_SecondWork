@@ -30,6 +30,8 @@ bool Player::Start()
 	m_ModelRender.SetPosition(m_Position);
 	m_CharacterController.Init(25.0f, 75.0f, m_Position);
 	m_Bulletmanager = FindGO<BulletManager>("bulletmanager");
+	m_Bulletmanager = FindGO<BulletManager>("m_bulletManager");
+	m_UI = FindGO<UI>("m_UI");
 	m_BulletCount = 6; //弾丸の初期数
 	m_PlayreHp = 100;
 	return true;
@@ -37,7 +39,7 @@ bool Player::Start()
 
 void Player::Update()
 {
-	if (m_GameCamera == nullptr)
+	if (!m_GameCamera)
 	{
 		m_GameCamera = FindGO<GameCamera>("m_GameCamera");
 		return;
@@ -108,11 +110,6 @@ void Player::Move()
 
 void Player::ATK()
 {
-	m_Bulletmanager = FindGO<BulletManager>("m_bulletManager");
-	if (!m_Bulletmanager) {
-		printf("BulletManager が nullptr です！\n");
-	}
-
 	//クールタイム
 	if (m_Atktime > 0) {
 		m_Atktime -= g_gameTime->GetFrameDeltaTime();
@@ -135,11 +132,11 @@ void Player::ATK()
 			rot.Apply(dir);
 			dir.Normalize(); // 念のため正規化
 
-			// プレイヤーの位置（少し前にずらすと自然）
-			Vector3 pos = m_Position + dir * 10.0f + Vector3(0, 10.0f, 0);
+			// プレイヤーの位置(少し前にずらすと自然)
+			Vector3 pos = m_Position + dir * 10.0f + Vector3(0.0f, 10.0f, 0);
 
 			// 発射命令
-			m_Bulletmanager->FireBullet(pos, dir);
+			m_Bulletmanager->FireBullet(pos, dir,rot);
 			m_BulletCount--;
 			m_Atktime = 0.5;
 		}
@@ -185,39 +182,18 @@ void Player::Rotation()
 
 void Player::Score()
 {
+	if (!m_UI) {
+		m_UI = FindGO<UI>("m_UI");
+		return;
+	}
 	float time = g_gameTime->GetFrameDeltaTime();
 	int intTime = static_cast<int>(time); // 小数点以下を切り捨て
 	int Fiftytimes = 50;//50倍
-	m_UI=FindGO<UI>("m_UI");
+	
 	m_UI->m_Scores += intTime * Fiftytimes;//スコア加算	
 }
 
 void Player::Render(RenderContext& rc)
 {
-	m_GameCamera = FindGO<GameCamera>("m_GameCamera");
-	if (m_GameCamera == nullptr)
-	{
-		return;
-	}
-	wchar_t bu[129];
-	m_fontRender.SetPosition({ -600.0f,300.0f,0.0f });
-	//表示する色を設定する。
-	m_fontRender.SetColor(g_vec4White);
-	// スコアを取得
-	int Count = m_BulletCount;
-	// 座標を文字列に変換   正数表記は%d
-	swprintf(bu, 129, L"弾数: %d",Count);
-	// テキストをセット
-	m_fontRender.SetText(bu);
-	// フォント描画
-	m_fontRender.Draw(rc);
-
-	// 弾詰まり表示
-	if (m_Bulletmanager && m_Bulletmanager->IsBulletStuck()) {
-		m_fontRender.SetPosition({ -600.0f,400.0f,0.0f });
-		m_fontRender.SetColor({ 1.0f, 0.0f, 0.0f, 1.0f }); // 赤色
-		m_fontRender.SetText(L"弾詰まり！");
-		m_fontRender.Draw(rc);
-	}
 }
 

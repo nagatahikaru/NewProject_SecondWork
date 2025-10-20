@@ -28,11 +28,11 @@ void BulletManager::Update()
 
 }
 
-void BulletManager::FireBullet(const Vector3& pos, const Vector3& dir)
+void BulletManager::FireBullet(const Vector3& pos, const Vector3& dir,const Quaternion& rot)
 {
 	auto bullet = GetInactiveBullet();
 	if (bullet) {
-		bullet->Fire(pos, dir, 4000.0f);// ’e‚ð”­ŽË
+		bullet->Fire(pos, dir, 4000.0f, rot);// ’e‚ð”­ŽË
 	}
 }
 
