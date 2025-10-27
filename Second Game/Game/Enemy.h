@@ -23,7 +23,7 @@ public:
 	void Move();
 	void Rotation();
 	void PlayAnimation();
-	void Dead();	
+	void Dead(float damage);
 	void Render(RenderContext& rc);
 
 	Player* m_Player;//プレイヤーへの参照

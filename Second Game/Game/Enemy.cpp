@@ -19,10 +19,10 @@ Enemy::~Enemy()
 
 bool Enemy::Start()
 {
-	m_animationClips[enAnimationClip_Run].Load("Assets/animData/run.tka");
-	m_animationClips[enAnimationClip_Run].SetLoopFlag(true);
+	//m_animationClips[enAnimationClip_Run].Load("Assets/animData/run.tka");
+	//m_animationClips[enAnimationClip_Run].SetLoopFlag(true);
 
-	m_ModelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enModelUpAxisY);
+	m_ModelRender.Init("Assets/modelData/Enemy.tkm", m_animationClips, enModelUpAxisY);
 	m_ModelRender.SetShadowCasterFlag(false);
 
 	// 初期座標をランダムに決定
@@ -38,16 +38,17 @@ bool Enemy::Start()
 	rbInfo.pos = m_Position;
 	rbInfo.rot.SetRotationY(0.0f);
 	rbInfo.mass = 1.0f;                // 質量
-	rbInfo.restitution = 0.3f;         // 反発係数（跳ね返り度）
+	rbInfo.restitution = 1.0f;         // 反発係数（跳ね返り度）
 
 	// 敵の当たり判定コライダーを作成
 	auto collider = new nsK2EngineLow::SphereCollider; // もしSphereColliderが使えるなら
 	collider->Create(25.0f); // 半径25
 	rbInfo.collider = collider;
 
-	m_RigidBody.Init(rbInfo);
-	m_RigidBody.SetFriction(1.0f);
-	m_RigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
+	m_RigidBody.Init(rbInfo);//剛体をセット
+	m_RigidBody.GetBody();
+	m_RigidBody.SetFriction(1.0f);//摩擦力を設定
+	m_RigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);//移動可能軸を設定
 	m_RigidBody.SetAngularFactor(0.0f, 1.0f, 0.0f); // Y軸回転のみ許可
 
 	// ---- ★ CharacterControllerは不要（または補助用） ----
@@ -126,7 +127,7 @@ void Enemy::Move()
 	}
 	//エネミーの位置更新
 	m_ModelRender.SetPosition(m_Position);
-	m_CharacterController.SetPosition(m_Position);
+	m_RigidBody.SetPositionAndRotation(m_Position, m_Rotation);
 	Rotation();
 	//エネミーの更新
 	m_ModelRender.Update();
@@ -143,30 +144,26 @@ void Enemy::Rotation()
 
 void Enemy::PlayAnimation()
 {
-	m_ModelRender.PlayAnimation(enAnimationClip_Run);
+	//m_ModelRender.PlayAnimation(enAnimationClip_Run);
 	//アニメーションを増やす用のスペース
 }
 
-void Enemy::Dead()
+void Enemy::Dead(float damage)
 {	
+	
+
 	if(m_Position.y<-100.0f)
 	{
 		Deactivate();
 		return;
 	}
-	auto bullet = FindGO<Bullet>("bullet");
-	Vector3 dif=bullet->m_Position - m_Position;
-	float dist = dif.Length();
-	if(dist<=50.0f)
+	m_Hp -= damage;
+	 //弾丸の攻撃力分体力を減らす
+	if (m_Hp <= 0)
 	{
-		bullet->Atk();
-		; //弾丸の攻撃力分体力を減らす
-		if (m_Hp <= 0)
-		{
-			m_isActive = false;
-			m_Player->m_Score += 100; //スコア加算
-			Deactivate();
-		}
+		m_isActive = false;
+		m_Player->m_Score += 100; //スコア加算
+		Deactivate();
 	}
 }
 
